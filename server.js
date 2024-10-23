@@ -1,12 +1,19 @@
 const express = require('express');
 const app = express();
-const pool = require('./db');
+const pool = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Use the auth routes
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.get('/users', async (req, res) => {
+/*app.get('/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users');
         res.json(result.rows);
@@ -14,7 +21,7 @@ app.get('/users', async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server error');
     }
-});
+});*/
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
