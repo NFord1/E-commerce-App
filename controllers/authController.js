@@ -29,5 +29,30 @@ const registerUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+// User Login
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
 
-module.exports = {registerUser};
+    try {
+        // Check if the user exists
+        const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (user.rows.length === 0) {
+            return res.status(400).json({message: 'Invalid email or password'});
+        }
+
+        // Check is the provided password matches the hashed password in the database
+        const validPassword = await bcrypt.compare(password, user.rows[0].password);
+        if (!validPassword) {
+            return res.status(400).json({message: 'Invalid email or password'});
+        }
+
+        // If login if successful, send a success response
+        res.status(200).json({message: 'Login successful', userId: user.rows[0].id});
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
+}
+
+module.exports = {registerUser, loginUser};
