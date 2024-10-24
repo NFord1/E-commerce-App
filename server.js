@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const checkoutRoutes = require('./routes/checkoutRoutes');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -20,6 +21,9 @@ app.use('/api', userRoutes);
 
 //Use the cart routes
 app.use('/api', cartRoutes);
+
+//Use the checkout routes
+app.use('/api', checkoutRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
