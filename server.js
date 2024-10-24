@@ -4,6 +4,7 @@ const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -16,6 +17,9 @@ app.use('/api', productRoutes);
 
 //Use the user routes
 app.use('/api', userRoutes);
+
+//Use the cart routes
+app.use('/api', cartRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
