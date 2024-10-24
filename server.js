@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Use the auth routes
 app.use('/api/auth', authRoutes);
+
+// Use product routes with /api prefix
+app.use('/api', productRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
