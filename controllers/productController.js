@@ -54,10 +54,10 @@ const updateProduct = async (req, res) => {
             'UPDATE products SET name = $1, description = $2, price = $3, stock_quantity = $4 WHERE id = $5 RETURNING *',
             [name, description, price, stock_quantity, productId]
         );
-        if (updateProduct.rows.length === 0) {
+        if (updatedProduct.rows.length === 0) {
             return res.status(404).json({message: 'Product not found'});
         }
-        res.status(200).json(updateProduct.rows[0]);
+        res.status(200).json(updatedProduct.rows[0]);
 
     } catch (err) {
         console.error(err.message);
