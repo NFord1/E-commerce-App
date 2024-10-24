@@ -7,6 +7,36 @@ const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+
+const swaggerOptions = {
+    swaggerDefinition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'E-commerce API',
+        description: 'API for an e-commerce application',
+        version: '1.0.0',
+        contact: {
+          name: 'Nathan Ford',
+          email: 'your-email@example.com',
+        },
+      },
+      servers: [
+        {
+          url: 'http://localhost:3000',
+        },
+      ],
+    },
+    apis: ['./routes/*.js'], // This will include comments from your route files
+  };
+
+// Initialise swagger
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+
+// Set up the swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Middleware to parse JSON
 app.use(express.json());
