@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 
 
 const RegisterPage = () => {
@@ -7,6 +8,8 @@ const RegisterPage = () => {
         email: '',
         password: '',
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({
@@ -31,6 +34,7 @@ const RegisterPage = () => {
             if (response.ok) {
                 // Registration successful, redirect or auto-login
                 console.log('Registration successful:', data);
+                navigate('/products');
                 // Redirect to another page e.g. products
             } else {
                 console.error('Registration failed:', data.message);
