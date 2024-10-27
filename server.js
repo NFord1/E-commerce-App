@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -9,7 +8,9 @@ const checkoutRoutes = require('./routes/checkoutRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const cors = require('cors');
 
+const app = express();
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -37,6 +38,13 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Set up the swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Allow CORS for frontend origin
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 
 // Middleware to parse JSON
 app.use(express.json());
