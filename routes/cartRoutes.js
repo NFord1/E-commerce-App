@@ -1,5 +1,6 @@
 const express = require('express');
 const { getItemsFromCart, addToCart, removeItemFromCart  } = require('../controllers/cartController');
+const ensureAuthenticated = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 /**
@@ -55,7 +56,7 @@ router.get('/cart/:userId', getItemsFromCart);
  *         description: Cart not found
  */
 // Route to add a product to a user's cart
-router.post('/cart/:userId', addToCart);
+router.post('/cart', ensureAuthenticated, addToCart);
 
 
 /**

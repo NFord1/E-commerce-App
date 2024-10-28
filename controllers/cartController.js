@@ -1,10 +1,13 @@
 const pool = require('../config/db');
 
 const addToCart = async (req, res) => {
-    const { userId } = req.params;
-    const { productId, quantity } = req.body;
+    //const { userId } = req.params;
+    const { productId, quantity=1 } = req.body;
 
     try {
+        // Get user ID from the session
+        const userId = req.user.id;
+
         // Check if cart exists
         const cart = await pool.query('SELECT * FROM carts WHERE user_id = $1', [userId]);
 
