@@ -1,6 +1,8 @@
 const express = require('express');
 const { registerUser, loginUser } = require('../controllers/authController');
+const passport = require('passport');
 const router = express.Router();
+
 
 /**
  * @swagger
@@ -55,5 +57,16 @@ router.post('/register', registerUser);
  */
 // Define login route
 router.post('/login', loginUser);
+
+// Route to initiate Google login
+router.get('/google', passport.authenticate('google',{scope: ['profile', 'email']}));
+
+// Route to handle google login callback
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/login'}),
+(req, res) => {
+    // Successful authentication, redirect to the frontend
+    res.redirect('http://localhost:3000/products');
+}
+);
 
 module.exports = router;

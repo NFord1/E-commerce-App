@@ -9,6 +9,9 @@ const orderRoutes = require('./routes/orderRoutes');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
+require('./passportConfig');
 
 const app = express();
 
@@ -45,6 +48,17 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+app.use(session({
+    secret: 'your_secret_key',// add secret key here
+    resave: false,
+    saveUninitialized: true,
+    //cookie: {secure: false} // Set to true if using HTTPS in production
+}));
+
+// Initialise passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware to parse JSON
 app.use(express.json());
