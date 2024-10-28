@@ -9,10 +9,14 @@ const addToCart = async (req, res) => {
         const userId = req.user.id;
 
         // Check if cart exists
-        const cart = await pool.query('SELECT * FROM carts WHERE user_id = $1', [userId]);
+        let cart = await pool.query('SELECT * FROM carts WHERE user_id = $1', [userId]);
 
         if (cart.rows.length === 0) {
-            return res.status(404).json({message: 'Cart not found'});
+            // If no cart exists, create a new cart for the user
+            cart = await pool.query('INSERT INTO carts (user_id) VALUES ($1) RETURNING *',
+                [userId]
+            );
+            //return res.status(404).json({message: 'Cart not found'});
         }
 
         const cartId = cart.rows[0].id;
