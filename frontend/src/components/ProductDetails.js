@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
+import fetchWithAuth from "../utils/fetchWithAuth";
 
 const ProductDetails = () => {
     const {id} = useParams();
@@ -23,13 +24,13 @@ const ProductDetails = () => {
 
     const addToCart = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/cart', {
+            const response = await fetchWithAuth('http://localhost:5000/api/cart', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({productId: id}),
+                body: JSON.stringify({productId: id, quantity: 1}),
             });
 
-            if (response.ok) {
+            if (response && response.ok) {
                 alert('Product added to cart!');
             } else {
                 console.error('Failed to add product to cart');
