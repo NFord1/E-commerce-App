@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser } = require('../controllers/authController');
+const { registerUser, loginUser, logoutUser } = require('../controllers/authController');
 const passport = require('passport');
 const router = express.Router();
 
@@ -77,5 +77,8 @@ router.get('/current_user', (req, res) => {
         res.status(401).json({message: 'User not logged in'});
     }
 });
+
+// Define logout route
+router.get('/logout', logoutUser);
 
 module.exports = router;

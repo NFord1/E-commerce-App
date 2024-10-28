@@ -48,6 +48,24 @@ const LoginPage = () => {
         window.location.href = 'http://localhost:5000/api/auth/google';
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/logout', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (response.ok) {
+                console.log('Logout successful');
+                window.location.href = 'http://localhost:3000';
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
+
     return (
         <div>
             <h2>Login</h2>
@@ -86,6 +104,10 @@ const LoginPage = () => {
             <p>
                 Don't have an account? <a href="/register">Register here</a>
             </p>
+
+            <div>
+                <button onClick={handleLogout} >Logout</button>
+            </div>
         </div>
     );
 };
