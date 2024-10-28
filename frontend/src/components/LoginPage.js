@@ -42,6 +42,11 @@ const LoginPage = () => {
         }
     };
 
+    const handleGoogleLogin = () => {
+        // Redirect user to google login endpoint on backend
+        window.location.href = 'http://localhost:5000/api/auth/google';
+    };
+
     return (
         <div>
             <h2>Login</h2>
@@ -73,7 +78,7 @@ const LoginPage = () => {
 
             <div>
                 <p>Or login with:</p>
-                <button>Login with Google</button>
+                <button onClick={handleGoogleLogin} >Login with Google</button>
                 <button>Login with Facebook</button>
             </div>
 
