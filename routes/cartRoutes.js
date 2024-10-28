@@ -23,7 +23,7 @@ const router = express.Router();
  *         description: No items found in cart
  */
 // Route to get items from a users cart by Id
-router.get('/cart/:userId', getItemsFromCart);
+router.get('/cart', ensureAuthenticated, getItemsFromCart);
 
 /**
  * @swagger
@@ -85,6 +85,6 @@ router.post('/cart', ensureAuthenticated, addToCart);
  *         description: Product not found in cart
  */
 // Route to remove a product from a user's cart
-router.delete('/cart/:userId/products/:productId', removeItemFromCart);
+router.delete('/cart/:productId', ensureAuthenticated, removeItemFromCart);
 
 module.exports = router;

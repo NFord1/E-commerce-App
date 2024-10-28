@@ -41,9 +41,11 @@ const addToCart = async (req, res) => {
 };
 
 const getItemsFromCart = async (req, res) => {
-    const { userId } = req.params;
+    //const { userId } = req.params;
 
     try {
+        const userId = req.user.id;
+
         const cart = await pool.query(
             'SELECT p.id, p.name, p.price, ci.quantity FROM products p JOIN cart_items ci ON p.id = ci.product_id JOIN carts c ON ci.cart_id = c.id WHERE c.user_id = $1', [userId]);
         
@@ -60,9 +62,11 @@ const getItemsFromCart = async (req, res) => {
 };
 
 const removeItemFromCart = async (req, res) => {
-    const { userId, productId } = req.params;
+    const { productId } = req.params;
 
     try {
+        const userId = req.user.id;
+        
         // Check if the cart exists
         const cart = await pool.query('SELECT * FROM carts WHERE user_id = $1', [userId]);
 
