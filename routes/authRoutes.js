@@ -69,4 +69,13 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 }
 );
 
+// Test route to check session and logged-in user
+router.get('/current_user', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({user: req.user});
+    } else {
+        res.status(401).json({message: 'User not logged in'});
+    }
+});
+
 module.exports = router;

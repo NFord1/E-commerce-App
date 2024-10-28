@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
     }
 };
 // User Login
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -46,8 +46,14 @@ const loginUser = async (req, res) => {
             return res.status(400).json({message: 'Invalid email or password'});
         }
 
-        // If login if successful, send a success response
-        res.status(200).json({message: 'Login successful', userId: user.rows[0].id});
+        // If login if successful, start a user session and send a success response
+        req.login(user.rows[0], (err) => {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({message: 'Login successful', userId: user.rows[0].id});
+
+        })
 
     } catch (err) {
         console.error(err.message);
