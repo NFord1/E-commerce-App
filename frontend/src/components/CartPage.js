@@ -11,7 +11,7 @@ const CartPage = () => {
                 const response = await fetchWithAuth('http://localhost:5000/api/cart');
                 const items = await response.json();
                 setCartItems(items);
-                calculateTotal(items);
+                //calculateTotal(items);
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
@@ -20,6 +20,11 @@ const CartPage = () => {
         fetchCartItems();
 
     }, []);
+
+    // Recalculate total whenever cartItems updates
+    useEffect(() => {
+        calculateTotal(cartItems);
+    }, [cartItems]);
 
     const calculateTotal = (items) => {
         const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -49,7 +54,7 @@ const CartPage = () => {
                     setCartItems(updatedItems);
                 }
     
-                calculateTotal(cartItems);
+                //calculateTotal(cartItems);
             } else {
                 console.error('Failed to update cart item quantity');
             }
@@ -65,7 +70,7 @@ const CartPage = () => {
             });
             const updatedItems = cartItems.filter(item => item.id !== productId);
             setCartItems(updatedItems);
-            calculateTotal(updatedItems);
+            //calculateTotal(updatedItems);
 
         } catch (error) {
 
