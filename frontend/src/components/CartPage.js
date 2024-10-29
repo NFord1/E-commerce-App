@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from "react";
 import fetchWithAuth from "../utils/fetchWithAuth";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const stripe = useStripe();
+    const elements = useElements();
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -11,7 +14,6 @@ const CartPage = () => {
                 const response = await fetchWithAuth('http://localhost:5000/api/cart');
                 const items = await response.json();
                 setCartItems(items);
-                //calculateTotal(items);
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
@@ -54,7 +56,6 @@ const CartPage = () => {
                     setCartItems(updatedItems);
                 }
     
-                //calculateTotal(cartItems);
             } else {
                 console.error('Failed to update cart item quantity');
             }
@@ -70,11 +71,46 @@ const CartPage = () => {
             });
             const updatedItems = cartItems.filter(item => item.id !== productId);
             setCartItems(updatedItems);
-            //calculateTotal(updatedItems);
 
         } catch (error) {
 
             console.error('Error removing item from cart:', error);
+        }
+    };
+
+    const handleCheckout = async () => {
+        if (!stripe || !elements) {
+            return;
+        }
+
+        try {
+            const { paymentIntent, error } = await fetchWithAuth('http://localhost:5000/api/checkout', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ amount: totalPrice * 100 }), //Convert to cents for stripe
+            }).then((res) => res.json());
+
+            if (error) {
+                console.error('Payment failed:', error);
+                return;
+            }
+
+            // Confirm the payment using Stripe's confirmCardPayment method
+            const result = await stripe.confirmCardPayment(paymentIntent.client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardElement),
+                },
+            });
+
+            if (result.error) {
+                console.error('Payment failed:', result.error.message);
+            } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+                alert('Payment successful!');
+                setCartItems([]); // Clear the cart on successful payment
+                setTotalPrice(0); // Reset total price
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
         }
     };
 
@@ -94,6 +130,12 @@ const CartPage = () => {
                 ))}
             </div>
             <h2>Total: ${totalPrice.toFixed(2)}</h2>
+
+            <div className="payment-section">
+                <h3>Payment</h3>
+                <CardElement />
+                <button onClick={handleCheckout} disabled={!stripe}>Complete Purchase</button>
+            </div>
         </div>
     );
     
