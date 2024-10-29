@@ -1,5 +1,5 @@
 const express = require('express');
-const { getItemsFromCart, addToCart, removeItemFromCart  } = require('../controllers/cartController');
+const { getItemsFromCart, addToCart, removeItemFromCart, adjustQuantity  } = require('../controllers/cartController');
 const ensureAuthenticated = require('../middlewares/authMiddleware');
 const router = express.Router();
 
@@ -86,5 +86,8 @@ router.post('/cart', ensureAuthenticated, addToCart);
  */
 // Route to remove a product from a user's cart
 router.delete('/cart/:productId', ensureAuthenticated, removeItemFromCart);
+
+// Route to update quantity of item in cart
+router.patch('/cart/:productId', ensureAuthenticated, adjustQuantity);
 
 module.exports = router;
