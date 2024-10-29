@@ -105,7 +105,12 @@ const CartPage = () => {
             if (result.error) {
                 console.error('Payment failed:', result.error.message);
             } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-                alert('Payment successful!');
+                // Finalise order on server
+                await fetchWithAuth('http://loclalhost:5000/api/checkout/finalse', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                });
+                alert('Payment and order successful!');
                 setCartItems([]); // Clear the cart on successful payment
                 setTotalPrice(0); // Reset total price
             }
