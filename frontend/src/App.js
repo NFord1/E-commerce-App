@@ -8,6 +8,7 @@ import RegisterPage from './components/RegisterPage';
 import LoginPage from './components/LoginPage';
 import NavBar from './NavBar';
 import ProductDetails from './components/ProductDetails';
+import CartPage from './components/CartPage';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/products/:id' element={<ProductDetails />} />
+          <Route path='/cart' element={<CartPage />} />
         </Routes>
       </div>
     </Router>
