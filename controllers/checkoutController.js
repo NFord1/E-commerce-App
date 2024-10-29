@@ -3,7 +3,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Checkout and create an order
 const checkoutCart = async (req, res) => {
-    const { userId } = req.user.id;
+    const  userId  = req.user.id;
     const { amount } = req.body;
 
     try {
@@ -32,14 +32,14 @@ const checkoutCart = async (req, res) => {
         res.status(200).json({ clientSecret: paymentIntent.client_secret});
 
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server error');
+        console.error('Error creating payment intent:', error);
+        res.status(500).json({error: 'Failed to create payment intent'});
     }
 };
 
 // Finalise order after payment confirmation
 const finaliseOrder = async (req, res) => {
-    const { userId } = req.user.id;
+    const  userId  = req.user.id;
 
     try {
         // Get the user's cart
