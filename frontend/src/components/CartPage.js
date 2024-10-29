@@ -84,19 +84,21 @@ const CartPage = () => {
         }
 
         try {
-            const { paymentIntent, error } = await fetchWithAuth('http://localhost:5000/api/checkout', {
+            const response = await fetchWithAuth('http://localhost:5000/api/checkout', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ amount: totalPrice * 100 }), //Convert to cents for stripe
-            }).then((res) => res.json());
+            })
+           
+            const data = await response.json();
+            const clientSecret = data.clientSecret;
 
-            if (error) {
-                console.error('Payment failed:', error);
-                return;
+            if (!clientSecret) {
+                throw new Error('Payment Intent creation failed, no clientSecret received.');
             }
 
             // Confirm the payment using Stripe's confirmCardPayment method
-            const result = await stripe.confirmCardPayment(paymentIntent.client_secret, {
+            const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: elements.getElement(CardElement),
                 },
@@ -106,7 +108,7 @@ const CartPage = () => {
                 console.error('Payment failed:', result.error.message);
             } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
                 // Finalise order on server
-                await fetchWithAuth('http://loclalhost:5000/api/checkout/finalse', {
+                await fetchWithAuth('http://localhost:5000/api/checkout/finalise', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                 });
