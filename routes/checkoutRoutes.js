@@ -1,5 +1,6 @@
 const express = require('express');
-const { checkoutCart  } = require('../controllers/checkoutController');
+const { checkoutCart, finaliseOrder  } = require('../controllers/checkoutController');
+const ensureAuthenticated = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 /**
@@ -21,7 +22,10 @@ const router = express.Router();
  *       404:
  *         description: No items in the cart
  */
-// Checkout a user's cart and create an order
-router.post('/cart/:userId/checkout', checkoutCart);
+// Route to initiate payment and return Payment intent
+router.post('/checkout', ensureAuthenticated, checkoutCart);
+
+// Route to finalise order after successful payment
+router.post('/checkout/finalise', ensureAuthenticated, finaliseOrder);
 
 module.exports = router;
