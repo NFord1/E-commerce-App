@@ -12,7 +12,7 @@ import CartPage from './components/CartPage';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('YOUR_PUBLISHABLE_KEY');
+const stripePromise = loadStripe('REMOVED_API_KEY');
 
 function App() {
 
