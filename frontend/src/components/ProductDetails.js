@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import fetchWithAuth from "../utils/fetchWithAuth";
 
 const ProductDetails = () => {
     const {id} = useParams();
     const [product, setProduct] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -40,6 +41,10 @@ const ProductDetails = () => {
         }
     };
 
+    const handleCheckout = () => {
+        navigate('/cart');
+    };
+
     if (!product) {
         return <p>Loading...</p>;
     }
@@ -50,6 +55,7 @@ const ProductDetails = () => {
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
             <button onClick={addToCart}>Add to Cart</button>
+            <button onClick={handleCheckout}>Go to Checkout</button>
         </div>
     );
 };
