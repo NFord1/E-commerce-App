@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {useNavigate} from 'react-router-dom';
 
-const LoginPage = () => {
+const LoginPage = ({onLogin}) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -32,6 +32,7 @@ const LoginPage = () => {
             const data = await response.json();
             if (response.ok) {
                 // Registration successful, redirect or auto-login
+                onLogin();
                 console.log('Login successful:', data);
                 navigate('/products');
                 // Redirect to another page e.g. products
