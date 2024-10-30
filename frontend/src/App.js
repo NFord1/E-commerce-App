@@ -9,6 +9,7 @@ import LoginPage from './components/LoginPage';
 import NavBar from './NavBar';
 import ProductDetails from './components/ProductDetails';
 import CartPage from './components/CartPage';
+import OrderHistoryPage from './components/OrderHistoryPage';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -47,6 +48,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/products/:id' element={<ProductDetails />} />
             <Route path='/cart' element={<CartPage />} />
+            <Route path='/orders/history' element={<OrderHistoryPage />} />
           </Routes>
         </div>
       </Router>
