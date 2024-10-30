@@ -1,5 +1,6 @@
 const express = require('express');
 const { getAllOrdersByUser, getOrderById  } = require('../controllers/orderController');
+const ensureAuthenticated = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 /**
@@ -22,7 +23,7 @@ const router = express.Router();
  *         description: No orders found for this user
  */
 // Get all orders for a user
-router.get('/orders/:userId', getAllOrdersByUser);
+router.get('/orders/history',ensureAuthenticated, getAllOrdersByUser);
 
 /**
  * @swagger
