@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import fetchWithAuth from "../utils/fetchWithAuth";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const stripe = useStripe();
     const elements = useElements();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -32,6 +34,10 @@ const CartPage = () => {
         const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
         setTotalPrice(total);
     };
+
+    const goToOrderHistory = () => {
+        navigate('/orders/history');
+    }
 
     const updateQuantity = async (productId, adjustment) => {
         try {
@@ -143,6 +149,8 @@ const CartPage = () => {
                 <CardElement />
                 <button onClick={handleCheckout} disabled={!stripe}>Complete Purchase</button>
             </div>
+
+            <button onClick={goToOrderHistory} >View Order History</button>
         </div>
     );
     
