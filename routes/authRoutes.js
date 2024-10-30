@@ -1,6 +1,7 @@
 const express = require('express');
 const { registerUser, loginUser, logoutUser } = require('../controllers/authController');
 const passport = require('passport');
+const ensureAuthenticated = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 
@@ -80,5 +81,10 @@ router.get('/current_user', (req, res) => {
 
 // Define logout route
 router.get('/logout', logoutUser);
+
+// Route to check authentication status
+router.get('/status', ensureAuthenticated, (req, res) => {
+    res.status(200).json({message: 'User is logged in'});
+});
 
 module.exports = router;
