@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 const pool = require('./config/db');
 
 passport.use(new GoogleStrategy({
-    clientID: 'REMOVED_API_KEY',
-    clientSecret: 'REMOVED_API_KEY',
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: 'http://localhost:5000/api/auth/google/callback',
     scope: ['profile', 'email']
 },
