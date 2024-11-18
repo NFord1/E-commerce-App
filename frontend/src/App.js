@@ -32,7 +32,6 @@ function App() {
         } else {
           setIsLoggedIn(false);
         }
-        //setIsLoggedIn(response.ok); // If response is OK, user is logged in
       } catch (error) {
         console.error('Error checking login status:', error);
       }

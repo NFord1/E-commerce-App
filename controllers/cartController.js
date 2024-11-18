@@ -1,7 +1,6 @@
 const pool = require('../config/db');
 
 const addToCart = async (req, res) => {
-    //const { userId } = req.params;
     const { productId, quantity=1 } = req.body;
 
     try {
@@ -16,7 +15,6 @@ const addToCart = async (req, res) => {
             cart = await pool.query('INSERT INTO carts (user_id) VALUES ($1) RETURNING *',
                 [userId]
             );
-            //return res.status(404).json({message: 'Cart not found'});
         }
 
         const cartId = cart.rows[0].id;
@@ -41,7 +39,6 @@ const addToCart = async (req, res) => {
 };
 
 const getItemsFromCart = async (req, res) => {
-    //const { userId } = req.params;
 
     try {
         const userId = req.user.id;
