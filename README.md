@@ -71,7 +71,76 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 ### Database Setup
 
-1. Create a PostgreSQL database and run the necessary migrations to set up the schema.
+1. Create a PostgreSQL database
+   ```
+   CREATE DATABASE ecommerce;
+   ```
+2. Create the following tables
+   ```
+   -- Users Table
+   CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+   
+   -- Products Table
+   CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price NUMERIC(10, 2) NOT NULL,
+    stock_quantity INTEGER NOT NUll,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+
+   -- Carts Table
+   CREATE TABLE carts (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+
+   -- Cart Items Table
+   CREATE TABLE cart_items (
+    cart_id INT REFERENCES carts(id) ON DELETE CASCADE,
+    product_id INT REFERENCES products(id) ON DELETE CASCADE,
+    quantity INT NOT NULL,
+    PRIMARY KEY(cart_id, product_id),
+   );
+
+   -- Orders Table
+   CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    total_price NUMERIC(10, 2) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+
+   -- Order Items Table
+   CREATE TABLE order_items (
+    order_id INT REFERENCES orders(id) ON DELETE CASCADE,
+    product_id INT REFERENCES products(id) ON DELETE CASCADE,
+    quantity INT NOT NULL,
+    price_at_time_of_order NUMERIC(10, 2) NOT NULL,
+    PRIMARY KEY(order_id, product_id),
+   );
+   ```
+3. Seed the Database (Optional)
+   ```
+   -- Add Users
+   INSERT INTO users (username, email, password) VALUES
+   ('testuser', 'test@example.com', 'hashed_password');
+
+   -- Add Products
+   INSERT INTO products (name, description, price) VALUES
+   ('Product 1', 'Description for product 1', 9.99),
+   ('Product 2', 'Description for product 2', 19.99),
+   ('Product 3', 'Description for product 3', 29.99);
+   ```
 
 ### Running the Application
 
