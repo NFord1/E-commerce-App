@@ -103,6 +103,10 @@ API documentation is available at [http://localhost:5000/api-docs](http://localh
 - `public/`: Static files for the frontend.
 - `src/`: Source code for the frontend.
 
+## To Do
+- Style the front end using CSS.
+- Complete Swagger documentation.
+
 ## Learn More
 
 - [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
