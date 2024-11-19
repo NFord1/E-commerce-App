@@ -1,65 +1,32 @@
 # E-commerce Application
 
-This is a full-stack e-commerce application built with Node.js, Express, PostgreSQL, and React. The application allows users to browse products, add items to their cart, and complete purchases using Stripe for payment processing.
+This is a full-stack e-commerce application built with Node.js, Express, PostgreSQL, and React. It is an interactive e-commerce web application featuring a user-friendly interface and secure authentication. The platform enables users to browse products, manage their shopping cart, and complete purchases with real-time payment processing through Stripe. Authenticated users can also view their order history and access their account details. This project demonstrates the use of a RESTful API with full CRUD capabilities and is structured with clean, reusable components in React.
 
-## Project Structure
+## Features
 
-```
-.env
-.gitignore
-config/
-    db.js
-controllers/
-    authController.js
-    cartController.js
-    checkoutController.js
-    orderController.js
-    productController.js
-    userController.js
-frontend/
-    .gitignore
-    
+- User registration and login (including Google OAuth)
+- Product listing and details
+- Shopping cart management
+- Checkout and order processing
+- Admin functionalities for managing products and users
+- API documentation with Swagger
 
-package.json
+## Technologies Used
 
+### Frontend
 
-    public/
-        index.html
-        manifest.json
-        robots.txt
-    README.md
-    src/
-        App.css
-        ...
-middlewares/
-    authMiddleware.js
+- React
+- React Router
+- Fetch API
+- Stripe for payments
 
+### Backend
 
-package.json
+- Express
+- PostgreSQL
+- Passport for authentication
+- Swagger for API documentation
 
-
-
-
-passportConfig.js
-
-
-
-
-
-
-routes/
-    authRoutes.js
-    cartRoutes.js
-    checkoutRoutes.js
-    orderRoutes.js
-    productRoutes.js
-    userRoutes.js
-
-
-server.js
-
-
-```
 
 ## Getting Started
 
@@ -123,6 +90,18 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
 
+## API Documentation
+API documentation is available at [http://localhost:5000/api-docs](http://localhost:5000/api-docs) when the backend server is running.
+
+## Folder Structure
+- `frontend/`: Contains the React frontend application.
+- `backend/`: Contains the Express backend application.
+- `config/`: Database configuration.
+- `controllers/`: Request handlers for different routes.
+- `routes/`: API route definitions.
+- `middlewares/`: Custom middleware functions.
+- `public/`: Static files for the frontend.
+- `src/`: Source code for the frontend.
 
 ## Learn More
 
@@ -131,10 +110,5 @@ Open [http://localhost:3000](http://localhost:3000) to view the application in y
 - [Express documentation](https://expressjs.com/)
 - [PostgreSQL documentation](https://www.postgresql.org/docs/)
 - [Stripe documentation](https://stripe.com/docs)
+- [Google OAuth 2.0 documentation](https://developers.google.com/identity/protocols/oauth2)
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-```
-
-I have created the `README.md` file in the root directory of your project.
